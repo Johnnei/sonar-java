@@ -43,3 +43,43 @@ interface ArchitectureConstraintInterface {
 @interface ArchitectureConstraintAnnotation {
   Pattern pattern = Pattern.compile("*.java"); // Noncompliant {{org.sonar.java.checks.targets.ArchitectureConstraintAnnotation must not use java.util.regex.Pattern}}
 }
+
+interface CheckParameterized {
+  java.util.List<File> files; // Noncompliant {{org.sonar.java.checks.targets.CheckParameterized must not use java.io.File}}
+}
+
+interface CheckParameterized2 {
+  java.util.List<? extends File> files; // Noncompliant {{org.sonar.java.checks.targets.CheckParameterized2 must not use java.io.File}}
+}
+
+class InstanceOf {
+  void foo() {
+    if(foo instanceof File) { // Noncompliant {{org.sonar.java.checks.targets.InstanceOf must not use java.io.File}}
+    }
+  }
+}
+class NewClass {
+  void foo() {
+    foo(new File("")); // Noncompliant {{org.sonar.java.checks.targets.NewClass must not use java.io.File}}
+  }
+}
+
+class ClassExpression {
+  Class<?> foo() {
+    return File.class; // Noncompliant {{org.sonar.java.checks.targets.ClassExpression must not use java.io.File}}
+  }
+}
+
+class NestedReturnType {
+  List<File> foo()  {} // Noncompliant {{org.sonar.java.checks.targets.NestedReturnType must not use java.io.File}}
+}
+
+class StaticAccess {
+  void foo() {
+    File.separator; // Noncompliant {{org.sonar.java.checks.targets.StaticAccess must not use java.io.File}}
+  }
+}
+
+class Arrays {
+  File[] files; // Noncompliant {{org.sonar.java.checks.targets.Arrays must not use java.io.File}}
+}
