@@ -103,7 +103,7 @@ public class DivisionByZeroCheck extends SECheck {
       SymbolicValue var;
       SymbolicValue expr;
       if (ExpressionUtils.isSimpleAssignment(tree)) {
-        var = programState.getValue(((IdentifierTree) ExpressionUtils.skipParentheses(tree.variable())).symbol());
+        var = programState.getValue(ExpressionUtils.extractIdentifier(tree).symbol());
         expr = programState.peekValue();
       } else {
         symbolicValues = programState.peekValues(2);

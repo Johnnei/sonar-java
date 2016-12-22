@@ -814,7 +814,7 @@ public class Class extends SuperClass {
 
     this.field1 = false;
     this.field2 = this.field1;
-    if (field1 || field2) { // false negative Noncompliant {{Change this condition so that it does not always evaluate to "false"}}
+    if (field1 || field2) { // Noncompliant {{Change this condition so that it does not always evaluate to "false"}}
     }
 
     if (super.field && !super.field) { // false negative Noncompliant {{Change this condition so that it does not always evaluate to "false"}}
@@ -1090,7 +1090,7 @@ public class Class extends SuperClass {
       }
     }
   }
-  
+
   public void test_integer_literals_split(boolean condition, int value) {
     // out of scope, must evaluate to unknown
     if (3 > 3) {
@@ -1220,14 +1220,14 @@ public class Class extends SuperClass {
     value = (b1 ^ b2) ? 1 : 2; // Noncompliant {{Change this condition so that it does not always evaluate to "false"}}
     value = (b1 ^ !b2) ? 1 : 2; // Noncompliant {{Change this condition so that it does not always evaluate to "true"}}
   }
-  
+
   public void handlePreAssignedBoolean() {
     if (preAssignedBoolean) { // Compliant because it is a field
       System.out.print("Was true");
     }
     System.out.println();
   }
-  
+
   public void handlePreAssignedBoolean() {
     Boolean preAssignedBoolean = true;
     if (preAssignedBoolean) { // Noncompliant {{Change this condition so that it does not always evaluate to "true"}}
@@ -1235,7 +1235,7 @@ public class Class extends SuperClass {
     }
     System.out.println();
   }
-  
+
   public void handlePreAssignedBoolean() {
     Boolean preAssignedBoolean = Boolean.TRUE;
     if (preAssignedBoolean) { // Noncompliant {{Change this condition so that it does not always evaluate to "true"}}
@@ -1243,13 +1243,13 @@ public class Class extends SuperClass {
     }
     System.out.println();
   }
-  
+
   public void constantTests() {
     String value = "default";
     if (value == null) { // Noncompliant {{Change this condition so that it does not always evaluate to "false"}}
       raiseError();
     }
-  } 
+  }
 }
 
 class SuperClass {
@@ -1296,7 +1296,7 @@ class SuperClass {
     }
     return false;
   }
-  
+
   private boolean initialized;
   public boolean doubleBooleanMutexCondition() {
     if (!initialized) {
@@ -1331,7 +1331,7 @@ class SuperClass {
     reusable ? entry : new Object(); // compliant both path are explored.
     return;
   }
-  
+
   private void castNumbers(long n, long m) {
     long product = n * m;
     int truncatedProduct = (int) product;
@@ -1348,7 +1348,7 @@ class SuperClass {
     foo &= a;
     if(foo) {} // Noncompliant
   }
-  
+
   public void sonarJava_1391(boolean b1, boolean b2) {
     b1 &= !b2;
     if (b1) {
@@ -1361,21 +1361,21 @@ class SuperClass {
       }
     }
   }
-  
+
   public void booleanObjectAssignment() {
     boolean b = Boolean.FALSE;
     if (b) {   // Noncompliant
       log("B true");
     }
   }
-  
+
   public void staticBooleanObjectAssignment() {
     boolean b = TRUE;
     if (b) {   // Noncompliant
       log("B true");
     }
   }
-  
+
   public void repeatedConditions(Object a, Object b) {
     if (a == b) {
       if ( a == b) {   // Noncompliant
@@ -1385,7 +1385,7 @@ class SuperClass {
       }
     }
   }
-  
+
   public void invertedConditions(Object a, Object b) {
     if (a == b) {
       if ( a != b) {   // Noncompliant
@@ -1395,7 +1395,7 @@ class SuperClass {
       }
     }
   }
-  
+
   public void negatedConditions(Object a, Object b) {
     if (!(a == b)) {
       if ( a != b) {   // Noncompliant
@@ -1405,7 +1405,7 @@ class SuperClass {
       }
     }
   }
-  
+
   public void invertedConditionsNotFirst(Object a, Object b) {
     if (a != b) {
       if ( a == b) {   // Noncompliant
@@ -1457,7 +1457,7 @@ class SuperClass {
       }
     }
   }
-  
+
   public void useEquals(Object a, Object b) {
     if (a.equals(b)) {
       log("Are equal!");
@@ -1466,7 +1466,7 @@ class SuperClass {
       }
     }
   }
-  
+
   public void negateEquals(Object a, Object b) {
     if (!a.equals(b)) {
       log("Not equal!");
@@ -1497,7 +1497,7 @@ class SuperClass {
     if (a.equals(b) || a == b) { // Noncompliant {{Change this condition so that it does not always evaluate to "false"}}
     }
   }
-  
+
   public void notNullAfterCall(Object a) {
     a.toString();
     if (a == null) { // Noncompliant {{Change this condition so that it does not always evaluate to "false"}}
@@ -1517,7 +1517,7 @@ class SuperClass {
     if (still) {
     }
   }
-  
+
   public void incrementChange(int n, int m) {
     int i = n;
     if( i == m) {
@@ -1527,7 +1527,7 @@ class SuperClass {
       }
     }
   }
-  
+
   public void decrementChange(int n, int m) {
     int i = n;
     if( i == m) {
@@ -1537,58 +1537,58 @@ class SuperClass {
       }
     }
   }
-  
+
   void equalsDoesNotImpliesNull(Object o, Object v) {
     if(o.equals(v) || v==null) {
-      
+
     }
-    
+
   }
-  
+
   void conjunctionEqual(Integer a, Integer b) {
     if( a <= b) {
       if( a >= b) {
         if(a == b) { // Noncompliant {{Change this condition so that it does not always evaluate to "true"}}
-          
+
         }
         if(a.equals(b)) { // Noncompliant {{Change this condition so that it does not always evaluate to "true"}}
-          
+
         }
       }
     }
   }
-  
+
   void conjunctionLessThan(Integer a, Integer b) {
     if( a <= b) {
       if(a < b) {
-        
+
       }
       if( a != b) {
         if(a < b) { // Noncompliant {{Change this condition so that it does not always evaluate to "true"}}
-          
+
         }
       }
       if( !a.equals(b)) {
         if(a < b) { // Noncompliant {{Change this condition so that it does not always evaluate to "true"}}
-          
+
         }
       }
     }
   }
-  
+
   void conjunctionGreaterThan(Integer a, Integer b) {
     if( a >= b) {
       if(a > b) {
-        
+
       }
       if( a != b) {
         if(a > b) { // Noncompliant {{Change this condition so that it does not always evaluate to "true"}}
-          
+
         }
       }
       if( !a.equals(b)) {
         if(a > b) { // Noncompliant {{Change this condition so that it does not always evaluate to "true"}}
-          
+
         }
       }
     }
@@ -2025,6 +2025,57 @@ class CheckingLoops {
 
     private static boolean isWord(String word) {
       return word.startsWith("hello") && word.endsWith("word");
+    }
+  }
+}
+
+class SimpleAssignments {
+  Object myField;
+
+  void foo() {
+    this.myField = null;
+    if (this.myField == null) { // FIXME: false negative Noncompliant
+    }
+  }
+
+  void foobarbar() {
+    myField = null;
+    if (myField == null) { // Noncompliant
+    }
+  }
+
+  void bar() {
+    this.myField = null;
+    if (myField == null) { // Noncompliant
+    }
+  }
+
+  void foobar() {
+    myField = null;
+    if (this.myField == null) { // FIXME: false negative Noncompliant
+    }
+  }
+
+  void foofoo() {
+    if (myField == this.myField) { // false negative Noncompliant
+    }
+    if (this.myField == myField) { // false negative Noncompliant
+    }
+  }
+
+  void foofoobar() {
+    Object myField = null;
+    if (myField == this.myField) { // Compliant
+    }
+    if (this.myField == myField) { // Compliant
+    }
+  }
+
+  void foobarfoo() {
+    SimpleAssignments a = new SimpleAssignments();
+    if (a.myField == myField) { // Compliant
+    }
+    if (a.myField == this.myField) { // Compliant
     }
   }
 }
